@@ -1,5 +1,6 @@
 numpad 1 - rock
 numpad 2 - paper
 numpad 3 - scissors
+
 x - end game
 n - restart game

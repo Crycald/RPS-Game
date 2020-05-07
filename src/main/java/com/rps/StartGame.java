@@ -1,6 +1,6 @@
 package com.rps;
 
-public class StartGameLogic {
+public class StartGame {
     private String nick;
     private int winRounds;
 
