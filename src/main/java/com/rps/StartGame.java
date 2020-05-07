@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 
 public class StartGame {
     private String nick;
+    private final String aiNick = "Computer";
     private int winRounds;
     private Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
 
@@ -43,6 +44,10 @@ public class StartGame {
 
     public String getNick() {
         return nick;
+    }
+
+    public String getAiNick() {
+        return aiNick;
     }
 
     public int getWinRounds() {
