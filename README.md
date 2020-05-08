@@ -1,4 +1,4 @@
-﻿# Simple console game
+﻿# Simple console game (Rock-Paper-Scissors)
 
 ## Instructions
 
