@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class StartGame {
     private String nick;
     private final String aiNick = "Computer";
-    private int winRounds = 0;
+    private int winRounds;
     private Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
 
     public void setNick(String nick) {

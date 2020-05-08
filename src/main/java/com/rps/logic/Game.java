@@ -35,45 +35,52 @@ public class Game {
         return playerSelect;
     }
 
-    public void setAiSelect() {
-        this.aiSelect = aiRandomSelect();
+    public String setAiSelect() {
+        Random random = new Random();
+        String aiName = startGame.getAiNick();
+        int maxRange = items.listOfItems().size();
+        this.aiSelect = items.listOfItems().get(random.nextInt((maxRange - 0) + 1)).toString();
+
+        System.out.print(aiName + ": " + aiSelect + "\n");
+        return aiSelect;
     }
 
     public String getAiSelect() {
+        setAiSelect();
         return aiSelect;
     }
 
     public void gameLogic() {
-        if (getPlayerSelect().contains(items.SCISSORS) && getAiSelect().contains(items.SCISSORS)) {
+        if (playerSelect.contains(items.SCISSORS) && aiSelect.contains(items.SCISSORS)) {
             System.out.println(ROUND_DRAW);
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (getPlayerSelect().contains(items.SCISSORS) && getAiSelect().contains(items.PAPER)) {
+        } else if (playerSelect.contains(items.SCISSORS) && aiSelect.contains(items.PAPER)) {
             playerPoints += 1;
             System.out.println(playerNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (getPlayerSelect().contains(items.SCISSORS) && getAiSelect().contains(items.ROCK)) {
+        } else if (playerSelect.contains(items.SCISSORS) && aiSelect.contains(items.ROCK)) {
             aiPoints += 1;
             System.out.println(aiNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (getPlayerSelect().contains(items.PAPER) && getAiSelect().contains(items.PAPER)) {
+        } else if (playerSelect.contains(items.PAPER) && aiSelect.contains(items.PAPER)) {
             System.out.println(ROUND_DRAW);
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (getPlayerSelect().contains(items.PAPER) && getAiSelect().contains(items.ROCK)) {
+        } else if (playerSelect.contains(items.PAPER) && aiSelect.contains(items.ROCK)) {
             playerPoints += 1;
             System.out.println(playerNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (getPlayerSelect().contains(items.PAPER) && getAiSelect().contains(items.SCISSORS)) {
+        } else if (playerSelect.contains(items.PAPER) && aiSelect.contains(items.SCISSORS)) {
             aiPoints += 1;
             System.out.println(aiNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (playerSelect.contains(items.ROCK) && getAiSelect().contains(items.ROCK)) {
+        } else if (playerSelect.contains(items.ROCK) && aiSelect.contains(items.ROCK)) {
             System.out.println(ROUND_DRAW);
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (playerSelect.contains(items.ROCK) && getAiSelect().contains(items.SCISSORS)) {
+        } else if (playerSelect.contains(items.ROCK) && aiSelect.contains(items.SCISSORS)) {
             playerPoints += 1;
             System.out.println(playerNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
-        } else if (playerSelect.contains(items.ROCK) && getAiSelect().contains(items.PAPER)) {
+        } else if (playerSelect.contains(items.ROCK) && aiSelect.contains(items.PAPER)) {
             aiPoints += 1;
             System.out.println(aiNick + " is the winner of this round!");
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
@@ -82,24 +89,26 @@ public class Game {
 
     public String controlHandler() {
         String input = data.nextLine();
-        String playerName = startGame.getNick();
             switch (input) {
                 case "1":
                     this.playerSelect = items.ROCK;
-                    System.out.println(playerName + ": " + playerSelect);
-                    setAiSelect();
+                    System.out.println(playerNick + ": " + playerSelect);
+                    getPlayerSelect();
+                    getAiSelect();
                     gameLogic();
                     break;
                 case "2":
                     this.playerSelect = items.PAPER;
-                    System.out.println(playerName + ": " + playerSelect);
-                    setAiSelect();
+                    System.out.println(playerNick + ": " + playerSelect);
+                    getPlayerSelect();
+                    getAiSelect();
                     gameLogic();
                     break;
                 case "3":
                     this.playerSelect = items.SCISSORS;
-                    System.out.println(playerName + ": " + playerSelect);
-                    setAiSelect();
+                    System.out.println(playerNick + ": " + playerSelect);
+                    getPlayerSelect();
+                    getAiSelect();
                     gameLogic();
                     break;
                 case "x":
@@ -140,28 +149,18 @@ public class Game {
 
     public void initConsoleGame() {
         System.out.println(startGame.getRulesFile());
-        //consoleInfoNick();
-        consoleInfoRounds();
+        consoleInfoNick();
+        //consoleInfoRounds();
         System.out.println(startGame.getControllsFile());
-        System.out.println("\n" + "------------------" + "\n");
-        System.out.println("\n" + "Game starts!" + "\n" + "Select your weapon: ");
-        controlHandler();
-    }
-
-    public String aiRandomSelect() {
-        Random random = new Random();
-        String aiName = startGame.getAiNick();
-        int maxRange = items.listOfItems().size();
-        this.aiSelect = items.listOfItems().get(random.nextInt((maxRange - 0) + 1)).toString();
-
-        System.out.print(aiName + ": " + aiSelect + "\n");
-        return aiSelect;
+        System.out.println("------------------" + "\n");
+        System.out.println("Game starts!" + "\n" + "Select your weapon: ");
     }
 
     public void start() {
         boolean end = false;
         while (!end) {
             initConsoleGame();
+            controlHandler();
         }
     }
 }
