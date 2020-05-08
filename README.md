@@ -7,6 +7,7 @@
  3. Go to the **CLI** (IntelliJ), type *gradlew build* (screen below) and then press Enter.
 
 ![IDEscreen](intelloj.png)
+
  4. After that open RpsRun.java and run it.
  5. Rest of instructions are in the running program
  6. Enjoy!
