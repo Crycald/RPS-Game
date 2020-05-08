@@ -12,23 +12,24 @@ public class Game {
     private Items items = new Items();
     private int aiPoints = 0;
     private int playerPoints = 0;
+    private int pointsToWin;
     private String playerSelect, aiSelect;
     private String playerNick;
     private String aiNick = startGame.getAiNick();
     private final static String ROUND_DRAW = "Round Draw";
 
-    private void consoleInfoNick() {
+    public void consoleInfoNick() {
         System.out.println("\n Your nick: ");
         String nick = data.nextLine();
         startGame.setNick(nick);
         this.playerNick = startGame.getNick();
-        System.out.println("\n Welcome " + playerNick + "\n");
     }
 
-    private void consoleInfoRounds() {
+    public void consoleInfoRounds() {
         System.out.println("\n Rounds: ");
-        int rounds = data.nextInt();
-        startGame.setWinRounds(rounds);
+        int rns = data.nextInt();
+        startGame.setWinRounds(rns);
+        this.pointsToWin = startGame.getWinRounds();
     }
 
     public String getPlayerSelect() {
@@ -47,6 +48,14 @@ public class Game {
     public String getAiSelect() {
         setAiSelect();
         return aiSelect;
+    }
+
+    public void gainedPointsByPlayers() {
+        if (playerPoints == startGame.getWinRounds()) {
+            System.out.println("The winner is: " + playerNick);
+        } else if (aiPoints == startGame.getWinRounds()) {
+            System.out.println("The winner is: " + aiNick);
+        }
     }
 
     public void gameLogic() {
@@ -86,7 +95,7 @@ public class Game {
         }
     }
 
-    public String controlHandler() {
+    public void itemControlHandler() {
         String input = data.nextLine();
             switch (input) {
                 case "1":
@@ -110,24 +119,34 @@ public class Game {
                     getAiSelect();
                     gameLogic();
                     break;
-                case "x":
-                    System.out.println("You rly want end the game? [y/n]" + "\n");
-                    if (data.next().charAt(0) == 'y') {
-                        endTheGame();
-                    } else if (data.next().charAt(0) == 'n') {
-                        continueTheGame();
-                    }
-                    break;
-                case "n":
-                    System.out.println("Restart game? [y/n]" + "\n");
-                    if (data.next().charAt(0) == 'y') {
-                        restartGame();
-                    } else if (data.next().charAt(0) == 'n') {
-                        continueTheGame();
-                    }
+                case "menu":
+                    System.out.println("\"x\" - exit game ");
+                    System.out.println("\"n\" - restart game");
+                    menuControlHandler();
                     break;
             }
-            return playerSelect;
+    }
+
+    private void menuControlHandler() {
+        String input = data.nextLine();
+        switch (input) {
+            case "x":
+                System.out.println("End game? [y/n]" + "\n");
+                if (data.next().charAt(0) == 'y') {
+                    endTheGame();
+                } else if (data.next().charAt(0) == 'n') {
+                    continueTheGame();
+                }
+                break;
+            case "n":
+                System.out.println("Restart game? [y/n]" + "\n");
+                if (data.next().charAt(0) == 'y') {
+                    restartGame();
+                } else if (data.next().charAt(0) == 'n') {
+                    continueTheGame();
+                }
+                break;
+        }
     }
 
     private void endTheGame() {
@@ -159,7 +178,7 @@ public class Game {
         boolean end = false;
         while (!end) {
             initConsoleGame();
-            controlHandler();
+            itemControlHandler();
         }
     }
 }
