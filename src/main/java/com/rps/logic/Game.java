@@ -35,14 +35,13 @@ public class Game {
         return playerSelect;
     }
 
-    public String setAiSelect() {
+    public void setAiSelect() {
         Random random = new Random();
         String aiName = startGame.getAiNick();
         int maxRange = items.listOfItems().size();
         this.aiSelect = items.listOfItems().get(random.nextInt((maxRange - 0) + 1)).toString();
 
         System.out.print(aiName + ": " + aiSelect + "\n");
-        return aiSelect;
     }
 
     public String getAiSelect() {
