@@ -12,31 +12,36 @@ public class Game {
     private Items items = new Items();
     private int aiPoints = 0;
     private int playerPoints = 0;
-    private int pointsToWin;
+    private int pointsToWin = 5;
     private String playerSelect, aiSelect;
     private String playerNick;
     private String aiNick = startGame.getAiNick();
+    private boolean endGame = false;
     private final static String ROUND_DRAW = "Round Draw";
 
-    public void consoleInfoNick() {
+    private void consoleInfoNick() {
         System.out.println("\n Your nick: ");
         String nick = data.nextLine();
         startGame.setNick(nick);
         this.playerNick = startGame.getNick();
     }
 
-    public void consoleInfoRounds() {
+    private void consoleInfoRounds() {
         System.out.println("\n Rounds: ");
         int rns = data.nextInt();
         startGame.setWinRounds(rns);
         this.pointsToWin = startGame.getWinRounds();
     }
 
-    public String getPlayerSelect() {
+    private int getPointsToWin() {
+        return pointsToWin;
+    }
+
+    private String getPlayerSelect() {
         return playerSelect;
     }
 
-    public void setAiSelect() {
+    private void setAiSelect() {
         Random random = new Random();
         String aiName = startGame.getAiNick();
         int maxRange = items.listOfItems().size();
@@ -45,20 +50,28 @@ public class Game {
         System.out.print(aiName + ": " + aiSelect + "\n");
     }
 
-    public String getAiSelect() {
+    private String getAiSelect() {
         setAiSelect();
         return aiSelect;
     }
 
-    public void gainedPointsByPlayers() {
-        if (playerPoints == startGame.getWinRounds()) {
-            System.out.println("The winner is: " + playerNick);
-        } else if (aiPoints == startGame.getWinRounds()) {
-            System.out.println("The winner is: " + aiNick);
+    private void gainedPointsByPlayers() {
+        if (playerPoints == pointsToWin) {
+            System.out.println("\n The winner is: " + playerNick + "\n");
+            System.out.println("TYPE: \"x\" - exit game ");
+            System.out.println("TYPE: \"n\" - restart game");
+            menuControlHandler();
+        } else if (aiPoints == pointsToWin) {
+            System.out.println("\nThe winner is: " + aiNick + "\n");
+            System.out.println("TYPE: \"x\" - exit game ");
+            System.out.println("TYPE: \"n\" - restart game");
+            menuControlHandler();
+        } else if (playerPoints < pointsToWin || aiPoints < pointsToWin) {
+            itemControlHandler();
         }
     }
 
-    public void gameLogic() {
+    private void gameLogic() {
         if (playerSelect.contains(items.SCISSORS) && aiSelect.contains(items.SCISSORS)) {
             System.out.println(ROUND_DRAW);
             System.out.println(playerNick + ": " + playerPoints + " | " + aiNick + ": " + aiPoints);
@@ -95,7 +108,7 @@ public class Game {
         }
     }
 
-    public void itemControlHandler() {
+    private void itemControlHandler() {
         String input = data.nextLine();
             switch (input) {
                 case "1":
@@ -125,6 +138,7 @@ public class Game {
                     menuControlHandler();
                     break;
             }
+        gainedPointsByPlayers();
     }
 
     private void menuControlHandler() {
@@ -139,7 +153,7 @@ public class Game {
                 }
                 break;
             case "n":
-                System.out.println("Restart game? [y/n]" + "\n");
+                System.out.println("Play again? [y/n]" + "\n");
                 if (data.next().charAt(0) == 'y') {
                     restartGame();
                 } else if (data.next().charAt(0) == 'n') {
@@ -151,11 +165,12 @@ public class Game {
 
     private void endTheGame() {
         System.out.println("Game over!" + "\n");
-        System.exit(0);
+        this.endGame = true;
     }
 
     private void continueTheGame() {
         System.out.println("Back to the game!");
+        itemControlHandler();
     }
 
     private void restartGame() {
@@ -168,17 +183,17 @@ public class Game {
     public void initConsoleGame() {
         System.out.println(startGame.getRulesFile());
         consoleInfoNick();
-        //consoleInfoRounds();
+        consoleInfoRounds();
         System.out.println(startGame.getControllsFile());
         System.out.println("------------------" + "\n");
         System.out.println("Game starts!" + "\n" + "Select your weapon: ");
+        itemControlHandler();
     }
 
     public void start() {
-        boolean end = false;
-        while (!end) {
+        this.pointsToWin = 2;
+        while (!endGame) {
             initConsoleGame();
-            itemControlHandler();
         }
     }
 }

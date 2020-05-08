@@ -5,7 +5,6 @@ numpad 1 - rock
 numpad 2 - paper
 numpad 3 - scissors
 
-MENU
-
-x - end game
-n - restart game
+menu - menu page
+    x - end game
+    n - restart game
